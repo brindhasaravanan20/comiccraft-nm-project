@@ -1,0 +1,101 @@
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef5f7;
+    color: #17212b;
+}
+.hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(rgba(20,75,95,.25), rgba(20,75,95,.45)),
+      url("https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1800&q=80") center/cover fixed;
+}
+.overlay {
+    min-height: 100vh;
+    padding: 30px 18px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.brand {
+    color: white;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 22px;
+    text-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.card {
+    width: min(470px, 96vw);
+    background: rgba(255,255,255,.96);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+h1 { text-align:center; margin:0 0 5px; color:#1f2937; }
+.small { text-align:center; color:#6b7280; margin-bottom:20px; }
+label { display:block; margin:13px 0 6px; font-weight:700; }
+textarea, input, select {
+    width:100%;
+    border:1px solid #cbd5e1;
+    border-radius:9px;
+    padding:11px;
+    font-size:15px;
+    background:white;
+}
+textarea { min-height:95px; resize:vertical; }
+button {
+    width:100%;
+    margin-top:20px;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    background:#1684dc;
+    color:white;
+    font-size:16px;
+    font-weight:700;
+    cursor:pointer;
+}
+button:hover { background:#0f6fbb; }
+button:disabled { opacity:.65; cursor:wait; }
+#error { color:#d32f2f; text-align:center; font-weight:600; }
+
+.preview-page {
+    background:#eef1f3;
+    min-height:100vh;
+    padding:28px 14px 50px;
+}
+.preview-container { width:min(850px, 96vw); margin:auto; }
+.preview-title { text-align:center; margin-bottom:25px; }
+.panel {
+    background:white;
+    border-radius:12px;
+    padding:18px;
+    margin:0 0 22px;
+    box-shadow:0 3px 15px rgba(0,0,0,.12);
+}
+.panel h2 { margin:0 0 13px; font-size:19px; }
+.panel img {
+    width:100%;
+    max-height:520px;
+    object-fit:cover;
+    border-radius:8px;
+    display:block;
+}
+.scene { color:#5d6770; font-style:italic; margin:10px 0; }
+.caption, .narration { line-height:1.55; }
+.actions { text-align:center; margin-top:25px; }
+.actions button { width:auto; min-width:250px; margin:5px; }
+.back { background:#64748b; }
+
+.success {
+    max-width:650px;
+    margin:100px auto;
+    background:white;
+    padding:45px 25px;
+    text-align:center;
+    border-radius:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
+}
+.success h1 { color:#22a35a; }

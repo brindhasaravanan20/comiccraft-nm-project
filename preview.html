@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Comic Preview</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="preview-page">
+<div class="preview-container">
+    <h1 class="preview-title">📖 Your Comic Preview</h1>
+    <div id="comic"></div>
+    <div class="actions">
+        <button onclick="downloadPDF()">📥 Download Your Comic as PDF</button>
+        <button class="back" onclick="window.location.href='/'">🎨 Create Another Comic</button>
+    </div>
+</div>
+
+<script>
+const data = JSON.parse(sessionStorage.getItem("comicData") || "null");
+if (!data) {
+    window.location.href = "/";
+} else {
+    const comic = document.getElementById("comic");
+    data.panels.forEach((p, i) => {
+        comic.innerHTML += `
+        <section class="panel">
+            <h2>Panel ${i+1}: ${p.title}</h2>
+            <img src="${p.image}" alt="Comic panel ${i+1}">
+            <div class="scene">${p.scene}</div>
+            <div class="caption"><b>Caption:</b> ${p.caption}</div>
+            <div class="narration"><b>Narration:</b> ${p.narration}</div>
+        </section>`;
+    });
+}
+
+async function downloadPDF() {
+    const button = event.target;
+    button.disabled = true;
+    button.textContent = "⏳ Preparing PDF...";
+
+    try {
+        const response = await fetch("/export-pdf", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) throw new Error("PDF creation failed.");
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ComicCraft_Comic.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+
+        window.location.href = "/static/success.html";
+    } catch (e) {
+        alert(e.message);
+        button.disabled = false;
+        button.textContent = "📥 Download Your Comic as PDF";
+    }
+}
+</script>
+</body>
+</html>

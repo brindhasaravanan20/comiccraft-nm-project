@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComicCraft</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="hero">
+        <div class="overlay">
+            <div class="brand">🎨 ComicCraft</div>
+            <div class="card" id="formCard">
+                <h1>✨ Create Your Comic</h1>
+                <p class="small">Turn your story idea into a simple comic preview.</p>
+
+                <label>Story Prompt</label>
+                <textarea id="story" placeholder="A brave fox enters a mysterious forest..."></textarea>
+
+                <label>Main Character Name</label>
+                <input id="character" placeholder="Fox" value="Fox">
+
+                <label>Setting</label>
+                <select id="setting">
+                    <option>Forest</option>
+                    <option>School</option>
+                    <option>City</option>
+                    <option>Space</option>
+                    <option>Village</option>
+                </select>
+
+                <label>Story Tone</label>
+                <select id="tone">
+                    <option>Adventure</option>
+                    <option>Mystery</option>
+                    <option>Funny</option>
+                    <option>Fantasy</option>
+                    <option>Emotional</option>
+                </select>
+
+                <label>Art Style</label>
+                <select id="art">
+                    <option>Comic</option>
+                    <option>Cartoon</option>
+                    <option>Anime</option>
+                </select>
+
+                <button onclick="generateComic()">🚀 Generate Comic</button>
+                <p id="error"></p>
+            </div>
+        </div>
+    </div>
+
+<script>
+async function generateComic() {
+    const error = document.getElementById("error");
+    error.textContent = "";
+
+    const story = document.getElementById("story").value.trim();
+    const character = document.getElementById("character").value.trim();
+    if (!story) {
+        error.textContent = "Please enter a story prompt.";
+        return;
+    }
+
+    const button = document.querySelector("button");
+    button.disabled = true;
+    button.textContent = "⏳ Creating Comic...";
+
+    try {
+        const response = await fetch("/generate", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                story,
+                character,
+                setting: document.getElementById("setting").value,
+                tone: document.getElementById("tone").value,
+                art_style: document.getElementById("art").value
+            })
+        });
+
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Generation failed");
+
+        sessionStorage.setItem("comicData", JSON.stringify(data));
+        window.location.href = "/static/preview.html";
+    } catch (e) {
+        error.textContent = e.message;
+        button.disabled = false;
+        button.textContent = "🚀 Generate Comic";
+    }
+}
+</script>
+</body>
+</html>
